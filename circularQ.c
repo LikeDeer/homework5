@@ -22,7 +22,7 @@ int isEmpty(QueueType *cQ);
 int isFull(QueueType *cQ);
 void enQueue(QueueType *cQ, element item);
 void deQueue(QueueType *cQ, element* item);
-void printQ(QueueType *cQ)  ;
+void printQ(QueueType *cQ);
 void debugQ(QueueType *cQ);
 element getElement();
 
