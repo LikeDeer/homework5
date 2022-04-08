@@ -90,6 +90,9 @@ int main()
 void postfixPush(char x)
 {
     postfixStack[++postfixStackTop] = x;
+	
+
+
 }
 
 char postfixPop()

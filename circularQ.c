@@ -42,6 +42,16 @@ int main(void)
 		printf("Command = ");
 		scanf(" %c", &command);
 
+
+	/*** if the command didn't comprised one character (2 chs or more) ***/
+		if (getchar() != '\n') {
+			printf("Sorry.. It was hard to understand...\n");
+			command = '\0';
+			while (getchar() != '\n');
+			continue;
+		}
+
+
 		switch(command) {
 		case 'i': case 'I':
 			data = getElement();
@@ -110,7 +120,7 @@ int isFull(QueueType *cQ)
 {
 	if ( cQ->front == 0 ) {
 		if ( !((cQ->front + (MAX_QUEUE_SIZE - 1)) - cQ->rear) ) {
-			printf("This circular Queue is FULL.. Please try again\n");
+			printf("This circular Queue is FULL.. Delete an element(or more) and try agian.\n");
 			return 1;
 		}
 	}
@@ -127,6 +137,11 @@ int isFull(QueueType *cQ)
 /* complete the function */
 void enQueue(QueueType *cQ, element item)
 {
+	if (getchar() != '\n') {
+		printf("You may lose some of your input data. Please try printing your queue and check.\n");
+		while (getchar() != '\n');
+	}
+
 	if (isFull(cQ)) {
 		return;
 	}
@@ -156,15 +171,15 @@ void printQ(QueueType *cQ)
 {
 	int i, first, last;
 
-	first = (cQ->front + 1)%MAX_QUEUE_SIZE;
-	last = (cQ->rear + 1)%MAX_QUEUE_SIZE;
+	first = (cQ->front + 1) % MAX_QUEUE_SIZE;
+	last = (cQ->rear + 1) % MAX_QUEUE_SIZE;
 
 	printf("Circular Queue : [");
 
 	i = first;
 	while(i != last){
 		printf("%3c", cQ->queue[i]);
-		i = (i+1)%MAX_QUEUE_SIZE;
+		i = (i+1) % MAX_QUEUE_SIZE;
 
 	}
 	printf(" ]\n");
@@ -186,5 +201,3 @@ void debugQ(QueueType *cQ)
 	}
 	printf("front = %d, rear = %d\n", cQ->front, cQ->rear);
 }
-
-
