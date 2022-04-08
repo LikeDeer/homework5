@@ -128,26 +128,27 @@ int isFull(QueueType *cQ)
 void enQueue(QueueType *cQ, element item)
 {
 	if (isFull(cQ)) {
-		exit(1);
+		return;
 	}
 
-	cQ->rear = (cQ->rear + 1)%MAX_QUEUE_SIZE;
+	cQ->rear = (cQ->rear + 1) % MAX_QUEUE_SIZE;
 	cQ->queue[cQ->rear] = item;
 
-	return 0;
+	// return 0;						
 }
 
 /* complete the function */
 void deQueue(QueueType *cQ, element *item)
 {
 	if (isEmpty(cQ)) {
-		exit(1);
+		return;
 	}
 
-	cQ->front = (cQ->front + 1)%MAX_QUEUE_SIZE;
+	cQ->front = (cQ->front + 1) % MAX_QUEUE_SIZE;
 	*item = cQ->queue[cQ->front];
+	printf("Popped item >>> %c\n", *item);
 
-    return 0;
+    // return 0;
 }
 
 
