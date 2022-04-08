@@ -22,7 +22,7 @@ int isEmpty(QueueType *cQ);
 int isFull(QueueType *cQ);
 void enQueue(QueueType *cQ, element item);
 void deQueue(QueueType *cQ, element* item);
-void printQ(QueueType *cQ);
+void printQ(QueueType *cQ)  ;
 void debugQ(QueueType *cQ);
 element getElement();
 
@@ -98,13 +98,28 @@ element getElement()
 /* complete the function */
 int isEmpty(QueueType *cQ)
 {
-
+	if ( cQ->front == cQ->rear ) {
+		printf("Current queue is EMPTY.. Insert an element(or more) and try agian.\n");
+		return 1;
+	}
     return 0;
 }
 
 /* complete the function */
 int isFull(QueueType *cQ)
 {
+	if ( cQ->front == 0 ) {
+		if ( !((cQ->front + (MAX_QUEUE_SIZE - 1)) - cQ->rear) ) {
+			printf("This circular Queue is FULL.. Please try again\n");
+			return 1;
+		}
+	}
+	else {
+		if ( !((cQ->front - 1) - cQ->rear) ) {
+			printf("This circular Queue is FULL.. Delete an element(or more) and try agian.\n");
+			return 1;
+		}
+	}
    return 0;
 }
 
@@ -112,12 +127,26 @@ int isFull(QueueType *cQ)
 /* complete the function */
 void enQueue(QueueType *cQ, element item)
 {
+	if (isFull(cQ)) {
+		exit(1);
+	}
+
+	cQ->rear = (cQ->rear + 1)%MAX_QUEUE_SIZE;
+	cQ->queue[cQ->rear] = item;
+
 	return 0;
 }
 
 /* complete the function */
 void deQueue(QueueType *cQ, element *item)
 {
+	if (isEmpty(cQ)) {
+		exit(1);
+	}
+
+	cQ->front = (cQ->front + 1)%MAX_QUEUE_SIZE;
+	*item = cQ->queue[cQ->front];
+
     return 0;
 }
 
