@@ -90,9 +90,6 @@ int main()
 void postfixPush(char x)
 {
     postfixStack[++postfixStackTop] = x;
-	
-
-
 }
 
 char postfixPop()
@@ -171,11 +168,10 @@ void toPostfix()
 	/* exp를 증가시켜가면서, 문자를 읽고 postfix로 변경 */
 	while(*exp != '\0')
 	{
-		/* 필요한 로직 완성 */
-
+		
 	}
 
-	/* 필요한 로직 완성 */
+	
 
 }
 void debug()
@@ -210,4 +206,3 @@ void evaluation()
 {
 	/* postfixExp, evalStack을 이용한 계산 */
 }
-

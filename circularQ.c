@@ -109,7 +109,7 @@ element getElement()
 int isEmpty(QueueType *cQ)
 {
 	if ( cQ->front == cQ->rear ) {
-		printf("Current queue is EMPTY.. Insert an element(or more) and try agian.\n");
+		printf("Current queue is EMPTY.. Insert an element(or more) and try again.\n");
 		return 1;
 	}
     return 0;
@@ -120,13 +120,13 @@ int isFull(QueueType *cQ)
 {
 	if ( cQ->front == 0 ) {
 		if ( !((cQ->front + (MAX_QUEUE_SIZE - 1)) - cQ->rear) ) {
-			printf("This circular Queue is FULL.. Delete an element(or more) and try agian.\n");
+			printf("Current queue is FULL.. Delete an element(or more) and try again.\n");
 			return 1;
 		}
 	}
 	else {
 		if ( !((cQ->front - 1) - cQ->rear) ) {
-			printf("This circular Queue is FULL.. Delete an element(or more) and try agian.\n");
+			printf("Current queue is FULL.. Delete an element(or more) and try again.\n");
 			return 1;
 		}
 	}
@@ -138,7 +138,7 @@ int isFull(QueueType *cQ)
 void enQueue(QueueType *cQ, element item)
 {
 	if (getchar() != '\n') {
-		printf("You may lose some of your input data. Please try printing your queue and check.\n");
+		printf("!You may lose some of your input data! Please try printing your queue and check.\n");
 		while (getchar() != '\n');
 	}
 
