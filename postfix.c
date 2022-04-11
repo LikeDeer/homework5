@@ -49,6 +49,8 @@ int main()
 {
 	char command;
 
+	printf("[----- [정준호]    [2020069046] -----]\n");
+
 	do{
 		printf("----------------------------------------------------------------\n");
 		printf("               Infix to Postfix, then Evaluation               \n");
@@ -168,12 +170,44 @@ void toPostfix()
 	/* exp를 증가시켜가면서, 문자를 읽고 postfix로 변경 */
 	while(*exp != '\0')
 	{
-		
+		if (getPriority(*exp) == operand)			// 피연산자면 배열에 그대로 전달
+		{
+			x = *exp;
+			charCat(&x);
+		}
+		else if (getPriority(*exp) == lparen)		// '('면 무조건 스택에 저장
+		{
+			postfixPush(*exp);
+		}
+		else if (getPriority(*exp) == rparen)		// ')'면 '(' 전 까지 스택에서 Pop 그리고 배열에 저장
+		{
+			while ((x = postfixPop()) != '(') {
+				charCat(&x);
+			}
+		}
+		/* 이후엔 괄호를 제외한 연산자가 등장하면 */
+		else if (getPriority(*exp) > getPriority(postfixStack[postfixStackTop]))		// 연산자가 이전 연산자보다 우선순위가 높다면 임시 스택에 Push
+		{
+			postfixPush(*exp);
+		}
+		else																			// 그렇지 못하다면 배열에 기록
+		{
+			x = *exp;
+			charCat(&x);
+		}
+		exp++;				// infix의 다음 문자로 넘어가기 위해 exp++;
 	}
 
-	
+	/* infixExp 가 소진되었다면, 스택에 남은 연산자들을 postfixExp 에 기록 */
+	while(postfixStackTop != -1)
+	{
+		x = postfixPop();
+		charCat(&x);
+	}
 
+	printf("Check postfix => %s\n", postfixExp);		// 후위 표기식 확인
 }
+
 void debug()
 {
 	printf("\n---DEBUG\n");
@@ -205,4 +239,40 @@ void reset()
 void evaluation()
 {
 	/* postfixExp, evalStack을 이용한 계산 */
+	int oprnd1, oprnd2;
+	int i;
+	int length = strlen(postfixExp);
+	char symbol;
+
+	/* 수식을 왼쪽에서 오른쪽으로 스캔 */
+	for(i = 0; i < length; i++) {
+		symbol = postfixExp[i];
+		if(getToken(symbol) == operand) {	   	// 연산자를 만날 때까지 피연산자를 스택에 저장
+			evalPush(symbol - '0');				  /* 정수는 문자 숫자에서 48을 뺀 값 */
+		}
+		else {								   	// 연산자를 만나면 연산에 필요한 만큼(2개)의 피연산자를 스택에서 pop
+			oprnd2 = evalPop();					  /* oprnd2 -> oprnd1 순서로 pop 해야 본래 맞는 순서로 연산됨 */
+			oprnd1 = evalPop();
+
+			switch(getToken(symbol)) {			// 연산
+			case plus:
+				evalPush(oprnd1 + oprnd2);		// 연산 결과를 다시 스택에 저장
+				break;
+			case minus:
+				evalPush(oprnd1 - oprnd2);
+				break;
+			case times:
+				evalPush(oprnd1 * oprnd2);
+				break;
+			case divide:
+				evalPush(oprnd1 / oprnd2);
+				break;
+			default:
+				break;
+			}
+		}	// 식의 끝에 도달할 때까지 위의 과정 반복
+	}
+	evalResult = evalPop();		// 스택의 톱에서 해답을 가져옴
+
+	printf("Evaluation result => %d\n", evalResult);
 }
